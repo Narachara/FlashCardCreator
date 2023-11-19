@@ -2,3 +2,4 @@
 testfile.xlsx
 *.png
 *.pdf
+.~lock.testfile.xlsx#
