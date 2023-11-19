@@ -47,7 +47,7 @@ def closest(lst, K):
 def createCutArray(spaces,threshold=7, line_length=30):
     cutarray = [0]
 
-    for i in range(line_length,600,line_length):
+    for i in range(line_length,650,line_length):
         ret = closest(spaces, i)
         if abs(ret-i) <= threshold:
             cutarray.append(ret)
@@ -72,7 +72,7 @@ def cut_and_display_string(col_position, row_position ,input_string, rows=12):
         cut_array = createCutArray(space_positions, line_length=45)
 
 
-    x_positions = [card_height - i for i in range(20, card_height + 100 , 10)]
+    x_positions = [card_height - i for i in range(20, card_height + 100 , 8)]
 
 
     for i in range(len(cut_array) - 1):
