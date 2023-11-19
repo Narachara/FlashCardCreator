@@ -1,0 +1,15 @@
+- make webapp with 
+    - drawing area
+    - preview of cards
+    - upload function
+    - delete and edit cards
+- database:
+    - how where what?
+    - create
+    - sorting, searching for cards
+- core functions:
+    - rendering options for different formats
+    - layouts anpassen und verbessern
+    - LaTex support!!
+    - adding tags
+    - numern, Überschrift möglichkeiten
