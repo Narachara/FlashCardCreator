@@ -49,30 +49,39 @@ def createCutArray(spaces,threshold=5):
     threshold = 5
     cutarray = [0]
 
-    for i in range(37,444,37):
+
+    for i in range(0,360,30):
       ret = closest(spaces, i)
       if abs(ret-i) <= threshold:
         cutarray.append(ret)
+    cutarray.append(spaces[-1])
 
     return cutarray
 
 
-def cut_and_display_string(col_position, row_position ,input_string, zeilen=12):
+def cut_and_display_string(col_position, row_position ,input_string, rows=12):
     # Find space positions
     stringlen = len(input_string)
     space_positions = [i for i in range(stringlen) if input_string[i].isspace()]
 
     cut_array = [0]
-    print(space_positions)
 
     if space_positions == []:
         cut_array = [0,37]
     else:
         cut_array = createCutArray(space_positions)
 
-    x_positions = [card_height - i for i in range(20, card_height, 10)]
+    if len(cut_array) < 24:
+        missing = 24 - len(cut_array)
+        a = [0] * missing
+        cut_array.extend(a)
 
-    for i in range(len(cut_array) - 1 ):
+    print(len(cut_array))
+
+
+    x_positions = [card_height - i for i in range(20, card_height + 100, 10)]
+
+    for i in range(rows):
         start = cut_array[i] # start von zeile
         end = cut_array[i+1] # ende von zeile
         chunk = input_string[start:end].strip()
@@ -102,7 +111,6 @@ def _draw_image(BildAntwort, row_position, col_position, Layout):
         c.drawImage(str(BildAntwort), col_position + 10, row_position + 10, \
                 width=card_width - 20, height=card_height - 20, mask=None,
                 preserveAspectRatio=False)
-
 
 def writeToPDF(index, row_position, col_position, q_or_a):
     Layout = ''
