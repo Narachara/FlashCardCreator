@@ -61,6 +61,15 @@ def cut_and_display_string(col_position, row_position ,input_string, chunk_size=
         display_position = row_position + x_positions[i]
         c.drawString(col_position + 10, display_position, chunk)
 
+
+def every_string_newline(input_string):
+    x_positions = [card_height - i for i in range(20, card_height, 10)]
+    
+    for i in range(len(input_string)):
+        c.drawString(col_position + 10, x_positions[i], input_string[i])
+
+
+
 def display_string_and_image(Antwort, BildAntwort, row_position,col_position, chunk_size=40):
     #c.drawString(col_position + 20, row_position + (card_height) - 20, Antwort)
     cut_and_display_string(col_position, row_position, Antwort)
