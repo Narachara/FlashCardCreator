@@ -36,7 +36,6 @@ card_height =   147
 # Calculate margin
 margin_side =  (page_width - (2 * card_width)) / 2
 margin_top_bottom = (page_height - (5 * card_height)) / 2
-lower_and_higher_bounds = [i for i in range(40,480,40)] ## for line break arrangement
 
 
 def closest(lst, K):
@@ -48,12 +47,13 @@ def closest(lst, K):
 def createCutArray(spaces,threshold=7):
     cutarray = [0]
 
-    for i in range(30,360,30):
+    for i in range(30,390,30):
         ret = closest(spaces, i)
         if abs(ret-i) <= threshold:
             cutarray.append(ret)
         else:
             cutarray.append(i)
+            cutarray.append(i+1)
 
 
     return cutarray
