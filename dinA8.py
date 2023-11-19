@@ -35,39 +35,30 @@ card_height =   147
 # Calculate margin
 margin_side =  (page_width - (2 * card_width)) / 2
 margin_top_bottom = (page_height - (5 * card_height)) / 2
+lower_and_higher_bounds = [i for i in range(40,480,40)] ## for line break arrangement
 
+print(lower_and_higher_bounds)
 
-def cut_and_display_string(col_position, row_position ,input_string, chunk_size=40):
+def cut_and_display_string(col_position, row_position ,input_string, zeilen=12):
     # Find space positions
-    space_positions = [i for i in range(len(input_string)) if input_string[i].isspace()]
+    stringlen = len(input_string)
+    space_positions = [i for i in range(stringlen) if input_string[i].isspace()]
+    cut_array = [0]
 
-    # Define cut positions bis 500 for dina 8
-    # [0, 40, 80, 120, 160, 200, 240, 280, 320, 360, 400, 440, 480]
-    cut_positions = [i for i in range(0, 530, chunk_size)]
 
-    # Adjust cut positions based on spaces
-    for i, cut_position in enumerate(cut_positions):
-        for space in space_positions:
-            if cut_position - 5 < space < cut_position + 1:
-                cut_positions[i] = space
+    # to do:  how do I create a cut array? what if it is of variable length? so it must have at least 24
+    # entries for the 12 lines? should I create it before the
+    #item > lower && item < upper
 
     # Calculate vertical positions
     x_positions = [card_height - i for i in range(20, card_height, 10)]
 
-    for i in range(len(cut_positions) - 1):
-        start = cut_positions[i]
-        end = cut_positions[i + 1]
+    for i in range(zeilen):
+        start = 0 # cut_array[i] # start von zeile
+        end = 37 # ende von zeile
         chunk = input_string[start:end].strip()
         display_position = row_position + x_positions[i]
         c.drawString(col_position + 10, display_position, chunk)
-
-
-def every_string_newline(input_string):
-    x_positions = [card_height - i for i in range(20, card_height, 10)]
-    
-    for i in range(len(input_string)):
-        c.drawString(col_position + 10, x_positions[i], input_string[i])
-
 
 
 def display_string_and_image(Antwort, BildAntwort, row_position,col_position, chunk_size=40):
