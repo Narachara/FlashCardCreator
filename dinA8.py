@@ -4,6 +4,7 @@ import pandas as pd
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
 import argparse
+import numpy as np
 
 
 # Create the ArgumentParser object
@@ -37,25 +38,43 @@ margin_side =  (page_width - (2 * card_width)) / 2
 margin_top_bottom = (page_height - (5 * card_height)) / 2
 lower_and_higher_bounds = [i for i in range(40,480,40)] ## for line break arrangement
 
-print(lower_and_higher_bounds)
+
+def closest(lst, K):
+     # find the item in lst which is closest to K
+     lst = np.asarray(lst)
+     idx = (np.abs(lst - K)).argmin()
+     return lst[idx]
+
+def createCutArray(spaces,threshold=5):
+    threshold = 5
+    cutarray = [0]
+
+    for i in range(37,444,37):
+      ret = closest(spaces, i)
+      if abs(ret-i) <= threshold:
+        cutarray.append(ret)
+
+    return cutarray
+
 
 def cut_and_display_string(col_position, row_position ,input_string, zeilen=12):
     # Find space positions
     stringlen = len(input_string)
     space_positions = [i for i in range(stringlen) if input_string[i].isspace()]
+
     cut_array = [0]
+    print(space_positions)
 
+    if space_positions == []:
+        cut_array = [0,37]
+    else:
+        cut_array = createCutArray(space_positions)
 
-    # to do:  how do I create a cut array? what if it is of variable length? so it must have at least 24
-    # entries for the 12 lines? should I create it before the
-    #item > lower && item < upper
-
-    # Calculate vertical positions
     x_positions = [card_height - i for i in range(20, card_height, 10)]
 
-    for i in range(zeilen):
-        start = 0 # cut_array[i] # start von zeile
-        end = 37 # ende von zeile
+    for i in range(len(cut_array) - 1 ):
+        start = cut_array[i] # start von zeile
+        end = cut_array[i+1] # ende von zeile
         chunk = input_string[start:end].strip()
         display_position = row_position + x_positions[i]
         c.drawString(col_position + 10, display_position, chunk)
@@ -67,6 +86,7 @@ def display_string_and_image(Antwort, BildAntwort, row_position,col_position, ch
     c.drawImage(str(BildAntwort), col_position + 10, row_position + 10, \
         width=card_width - 20, height=card_height - 40, mask=None,
         preserveAspectRatio=True)
+
 
 def _draw_image(BildAntwort, row_position, col_position, Layout):
     if Layout == 'small':
@@ -82,6 +102,7 @@ def _draw_image(BildAntwort, row_position, col_position, Layout):
         c.drawImage(str(BildAntwort), col_position + 10, row_position + 10, \
                 width=card_width - 20, height=card_height - 20, mask=None,
                 preserveAspectRatio=False)
+
 
 def writeToPDF(index, row_position, col_position, q_or_a):
     Layout = ''
