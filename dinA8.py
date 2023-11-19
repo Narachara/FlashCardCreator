@@ -47,7 +47,7 @@ def closest(lst, K):
 def createCutArray(spaces,threshold=7, line_length=30):
     cutarray = [0]
 
-    for i in range(line_length,390,line_length):
+    for i in range(line_length,600,line_length):
         ret = closest(spaces, i)
         if abs(ret-i) <= threshold:
             cutarray.append(ret)
@@ -111,12 +111,12 @@ def writeToPDF(index, row_position, col_position, q_or_a):
     BildAntwort = None
     Antwort = None
     if q_or_a == "question":
-        BildAntwort = df.iloc[index]['Bild-Frage']
-        Antwort = df.iloc[index]['Frage']
+        BildAntwort = df.iloc[index]['Image-Question']
+        Antwort = df.iloc[index]['Question']
         Layout = str(df.iloc[index]['Layout'])
     else:
-        BildAntwort = df.iloc[index]['Bild-Antwort']
-        Antwort = df.iloc[index]['Antwort']
+        BildAntwort = df.iloc[index]['Image-Answer']
+        Antwort = df.iloc[index]['Answer']
         Layout = str(df.iloc[index]['Layout'])
     c.rect(col_position, row_position, card_width, card_height)
 
