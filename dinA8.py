@@ -44,17 +44,16 @@ def closest(lst, K):
      idx = (np.abs(lst - K)).argmin()
      return lst[idx]
 
-def createCutArray(spaces,threshold=7):
+def createCutArray(spaces,threshold=7, line_length=30):
     cutarray = [0]
 
-    for i in range(30,390,30):
+    for i in range(line_length,390,line_length):
         ret = closest(spaces, i)
         if abs(ret-i) <= threshold:
             cutarray.append(ret)
         else:
             cutarray.append(i)
             cutarray.append(i+1)
-
 
     return cutarray
 
@@ -70,9 +69,8 @@ def cut_and_display_string(col_position, row_position ,input_string, rows=12):
     if space_positions == []:
         cut_array = [0,37]
     else:
-        cut_array = createCutArray(space_positions)
+        cut_array = createCutArray(space_positions, line_length=45)
 
-    print(input_string)
 
     x_positions = [card_height - i for i in range(20, card_height + 100 , 10)]
 
@@ -135,7 +133,7 @@ def writeToPDF(index, row_position, col_position, q_or_a):
 def makeQuestions():
     col_position = margin_side
     row_position = margin_top_bottom
-    c.setFont("Helvetica", 10)
+    c.setFont("Helvetica", 8)
 
     for i in range(10):
         writeToPDF(i, row_position, col_position, "question")
@@ -149,7 +147,7 @@ def makeAnswers():
     c.showPage()
     row_position = margin_top_bottom
     col_position = margin_side
-    c.setFont("Helvetica", 10)
+    c.setFont("Helvetica", 8)
 
     for i in range(10):
         match i:
