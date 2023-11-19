@@ -3,3 +3,8 @@ testfile.xlsx
 *.png
 *.pdf
 .~lock.testfile.xlsx#
+schmierblatt.py
+gui.py
+cutter.py
+toDo.md
+
