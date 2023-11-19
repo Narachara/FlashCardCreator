@@ -45,16 +45,16 @@ def closest(lst, K):
      idx = (np.abs(lst - K)).argmin()
      return lst[idx]
 
-def createCutArray(spaces,threshold=5):
-    threshold = 5
+def createCutArray(spaces,threshold=7):
     cutarray = [0]
 
+    for i in range(30,360,30):
+        ret = closest(spaces, i)
+        if abs(ret-i) <= threshold:
+            cutarray.append(ret)
+        else:
+            cutarray.append(i)
 
-    for i in range(0,360,30):
-      ret = closest(spaces, i)
-      if abs(ret-i) <= threshold:
-        cutarray.append(ret)
-    cutarray.append(spaces[-1])
 
     return cutarray
 
@@ -63,25 +63,21 @@ def cut_and_display_string(col_position, row_position ,input_string, rows=12):
     # Find space positions
     stringlen = len(input_string)
     space_positions = [i for i in range(stringlen) if input_string[i].isspace()]
+    display_position = 0
 
-    cut_array = [0]
+    cut_array = []
 
     if space_positions == []:
         cut_array = [0,37]
     else:
         cut_array = createCutArray(space_positions)
 
-    if len(cut_array) < 24:
-        missing = 24 - len(cut_array)
-        a = [0] * missing
-        cut_array.extend(a)
-
-    print(len(cut_array))
-
+    print(input_string)
 
     x_positions = [card_height - i for i in range(20, card_height + 100, 10)]
 
-    for i in range(rows):
+
+    for i in range(len(cut_array) - 1):
         start = cut_array[i] # start von zeile
         end = cut_array[i+1] # ende von zeile
         chunk = input_string[start:end].strip()
