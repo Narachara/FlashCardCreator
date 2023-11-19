@@ -74,7 +74,7 @@ def cut_and_display_string(col_position, row_position ,input_string, rows=12):
 
     print(input_string)
 
-    x_positions = [card_height - i for i in range(20, card_height + 100, 10)]
+    x_positions = [card_height - i for i in range(20, card_height + 100 , 10)]
 
 
     for i in range(len(cut_array) - 1):
