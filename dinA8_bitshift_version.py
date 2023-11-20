@@ -38,32 +38,42 @@ margin_side =  (page_width - (2 * card_width)) / 2
 margin_top_bottom = (page_height - (5 * card_height)) / 2
 
 
-def cut_and_display_string(col_position:int, row_position:int, input_string ,width:int=50) -> None:
-    total_rows = len(input_string) // width + 1
-    row = total_rows - 1  # Start from the last row
+def wrap_lines(para:str, width:int) -> list:
+    lines = []
 
-    while len(input_string):
-        #remove left side whitespace
-        input_string = input_string.lstrip(' ')
+    while len(para):
+        #remove left side whitespace / store length
+        para = para.lstrip(' ')
+        l    = len(para)
         
         #find first space from end of slice
-        p = input_string[0:width+1].rfind(' ')
-        l = len(input_string)
+        p = para[0:width+1].rfind(' ')
         
         #facts
         a = l <= width
         b = p > -1
         
-        #bitshift facts into index of proper value to use
-        p = (width, l, p)[(b>a) << 1 | a]
-            
-        #draw
-        c.drawString(col_position + 10, (row_position + 20) + row * 8, input_string[:p])
+        #bitbang facts to choice index
+        # 0: there is no space
+        # 1: remaining input is shorter than width
+        # 2: nearest right-side space
+        i = (b>a) << 1 | a
 
-        #update input
-        input_string = input_string[p:]
-
-        #next row
+        #get the proper slice index
+        p = (width, l, p)[i]
+        
+        #store line / update paragraph
+        lines.append(para[:p])
+        para = para[p:]
+        
+    return lines
+    
+def cut_and_display_string(x:int, y:int, para:str, width:int=50) -> None:
+    lines = wrap_lines(para, width)
+    row   = len(lines)
+    
+    for line in lines:
+        c.drawString(x + 10, row * 10 + y, line)
         row -= 1
 
 
